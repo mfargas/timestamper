@@ -33,7 +33,7 @@ app.get('/api/:input', (req, res)=>{
     responseObject['unix'] = new Date(input).getTime();
     responseObject['utc'] = new Date(input).toUTCString();
   } else {
-    input = parseInt(input);
+    // input = parseInt(input);
     
     responseObject['unix'] = new Date(input).getTime();
     responseObject['utc'] = new Date(input).toUTCString();
@@ -52,8 +52,5 @@ app.get('/api', (req, res)=>{
 
   res.json(responseObject);
 });
-
-// A request to / api /: date ? with a valid date should return a JSON object with a utc key that 
-// is a string of the input date in the format: Thu, 01 Jan 1970 00: 00: 00 GMT
 
 // Your project can handle dates that can be successfully parsed by new Date(date_string)
