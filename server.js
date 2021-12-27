@@ -30,13 +30,13 @@ app.get('/api/timestamp/:input', (req, res)=>{
   let input = req.params.input;
 
   if(input.includes('-')){
-    responseObject['unix'] = new Date(input).getTime;
-    responseObject['UTC'] = new Date(input).toUTCString;
+    responseObject['unix'] = new Date(input).getTime();
+    responseObject['UTC'] = new Date(input).toUTCString();
   } else {
     input = parseInt(input);
     
-    responseObject['unix'] = new Date(input).getTime;
-    responseObject['UTC'] = new Date(input).toUTCString;
+    responseObject['unix'] = new Date(input).getTime();
+    responseObject['UTC'] = new Date(input).toUTCString();
   };
 
   if (!responseObject['unix'] || !responseObject['UTC']){
@@ -47,7 +47,7 @@ app.get('/api/timestamp/:input', (req, res)=>{
 });
 
 app.get('api/timestamp/', (req, res)=>{
-  responseObject['unix'] = new Date().getTime;
+  responseObject['unix'] = new Date().getTime();
 
   res.json(responseObject);
 })
