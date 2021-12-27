@@ -26,7 +26,7 @@ var listener = app.listen(process.env.PORT || 3000, function () {
 
 let responseObject = {};
 
-app.get('/api/timestamp/:input', (req, res)=>{
+app.get('/api/:input', (req, res)=>{
   let input = req.params.input;
 
   if(input.includes('-')){
@@ -46,7 +46,7 @@ app.get('/api/timestamp/:input', (req, res)=>{
   res.json(responseObject);
 });
 
-app.get('api/timestamp/', (req, res)=>{
+app.get('api/', (req, res)=>{
   responseObject['unix'] = new Date().getTime();
 
   res.json(responseObject);
