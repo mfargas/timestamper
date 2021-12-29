@@ -13,12 +13,20 @@ app.get('/', (req, res) => {
 let responseObject = {};
 
 app.get("/api/:date_string", (req, res) => {
-  let dateString = req.params.date_string;
+  const regexp = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
+  const regexp2 = /^(\d{0,13})?$/;
+  let dateString = req.params.input;
+  let date;
 
-  if (/\d{5,}/.test(dateString)) {
+  if (regexp.test(dateString)) {
     let dateInt = parseInt(dateString);
     //Date regards numbers as unix timestamps, strings are processed differently
     res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
+  } else if(regexp2.test(dateString)) {
+    date = new Date(dateString * 1000);
+    res.json({ unix: dateString, utc: date.toUTCString() });
+  } else if(!dateString){
+    date = new Date();
   } else {
     let dateObject = new Date(dateString);
 
