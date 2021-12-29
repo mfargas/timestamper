@@ -12,39 +12,22 @@ app.get('/', (req, res) => {
 
 let responseObject = {};
 
-app.get('/api/:input', (req, res)=>{
-  const regexp = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
-  const regexp2 = /^(\d{0,13})?$/;
-  let input = req.params.input;
-  let date;
+app.get("/api/timestamp/:date_string", (req, res) => {
+  let dateString = req.params.date_string;
 
-  if(regexp.test(input)){
-    date = new Date(input);
-    responseObject['unix'] = date.getTime();
-    responseObject['utc'] = date.toUTCString();
-  } else if (regexp2.test(input)){
-    date = new Date(Number(input * 1e3));
-    responseObject['unix'] = date.getTime();
-    responseObject['utc'] = date.toUTCString();
+  if (/\d{5,}/.test(dateString)) {
+    let dateInt = parseInt(dateString);
+    //Date regards numbers as unix timestamps, strings are processed differently
+    res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
   } else {
-    date = new Date(Number(input));
-    responseObject['unix'] = date.getTime();
-    responseObject['utc'] = date.toUTCString();
-  };
+    let dateObject = new Date(dateString);
 
-  if (!responseObject['unix'] || !responseObject['utc']){
-    res.json({error: 'Invalid Date'});
+    if (dateObject.toString() === "Invalid Date") {
+      res.json({ error: "Invalid Date" });
+    } else {
+      res.json({ unix: dateObject.valueOf(), utc: dateObject.toUTCString() });
+    }
   }
-
-  res.json(responseObject);
-});
-
-app.get('/api', (req, res)=>{
-  let date = new Date();
-  responseObject['unix'] = date.getTime();
-  responseObject['utc'] = date.toUTCString();
-
-  res.json(responseObject);
 });
 
 var listener = app.listen(process.env.PORT || 3000, () => {
