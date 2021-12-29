@@ -19,7 +19,7 @@ app.get('/api/:input', (req, res)=>{
     responseObject['unix'] = new Date(input).getTime();
     responseObject['utc'] = new Date(input).toUTCString();
   } else {
-    input = parseInt(input);
+    // input = parseInt(input);
     
     responseObject['unix'] = Number(new Date(input).getTime());
     responseObject['utc'] = new Date(input).toUTCString();
@@ -43,6 +43,4 @@ var listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-// A request to /api/1451001600000 should return { unix: 1451001600000, utc: "Fri, 25 Dec 2015 00:00:00 GMT" }
-
-// { "unix": 1451001600000, "utc": "Fri, 25 Dec 2015 00:00:00 GMT" }
+// Your project can handle dates that can be successfully parsed by new Date(date_string)
