@@ -14,13 +14,17 @@ let responseObject = {};
 
 app.get('/api/:input', (req, res)=>{
   let input = req.params.input;
+  let date;
 
   if(input.includes('-')){
-    responseObject['unix'] = new Date(input).getTime();
-    responseObject['utc'] = new Date(input).toUTCString();
+    date = new Date(input);
+    responseObject['unix'] = date.getTime();
+    responseObject['utc'] = date.toUTCString();
+  } else if(!NaN(input)) {
+    date = new Date(parseInt(input));
+    responseObject['unix'] = date.getTime();
+    responseObject['utc'] = date.toUTCString();
   } else {
-    // input = parseInt(input);
-    
     responseObject['unix'] = Number(new Date(input).getTime());
     responseObject['utc'] = new Date(input).toUTCString();
   };
