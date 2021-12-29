@@ -13,20 +13,23 @@ app.get('/', (req, res) => {
 let responseObject = {};
 
 app.get('/api/:input', (req, res)=>{
+  const regexp = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
+  const regexp2 = /^(\d{0,13})?$/;
   let input = req.params.input;
   let date;
 
-  if(input.includes('-')){
+  if(regexp.test(input)){
     date = new Date(input);
     responseObject['unix'] = date.getTime();
     responseObject['utc'] = date.toUTCString();
-  } else if(!NaN(input)) {
-    date = new Date(parseInt(input));
+  } else if (regexp2.test(input)){
+    date = new Date(Number(input * 1e3));
     responseObject['unix'] = date.getTime();
     responseObject['utc'] = date.toUTCString();
   } else {
-    responseObject['unix'] = Number(new Date(input).getTime());
-    responseObject['utc'] = new Date(input).toUTCString();
+    date = new Date(Number(input));
+    responseObject['unix'] = date.getTime();
+    responseObject['utc'] = date.toUTCString();
   };
 
   if (!responseObject['unix'] || !responseObject['utc']){
@@ -37,8 +40,9 @@ app.get('/api/:input', (req, res)=>{
 });
 
 app.get('/api', (req, res)=>{
-  responseObject['unix'] = new Date().getTime();
-  responseObject['utc'] = new Date().toUTCString();
+  let date = new Date();
+  responseObject['unix'] = date.getTime();
+  responseObject['utc'] = date.toUTCString();
 
   res.json(responseObject);
 });
