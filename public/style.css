@@ -23,6 +23,23 @@ hr {
 	margin: 25px;
 }
 
+.test-links{
+	display: flex;
+	flex-direction: column;
+}
+
+.test-links > a{
+	text-decoration: none;
+	padding: 1rem;
+	margin: auto;
+	width: max-content;
+	color: maroon;
+}
+
+.test-links > a:hover{
+	color: mediumvioletred;
+}
+
 .footer {
 	margin-top: 40px;
 }
